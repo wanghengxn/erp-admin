@@ -1,0 +1,171 @@
+@use "./element-plus/index.scss";
+@use "./element-plus/override.scss";
+@use "./app";
+
+// 页面布局 CSS 变量
+:root {
+  // 这是一个复合变量
+  // 当页宽模式为 adaption-min-width 时，它代表 最小宽度
+  // 当页宽模式为 center 时，它代表 固定宽度
+  // 当页宽模式为 center-max-width 时，它代表 最大宽度
+  --g-app-width: #{$g-app-width};
+  // 头部宽度（默认自适应宽度，可固定宽度，固定宽度后为居中显示）
+  --g-header-width: #{$g-header-width};
+  // 头部高度
+  --g-header-height: 60px;
+  // 侧边栏宽度
+  --g-main-sidebar-width: 90px;
+  --g-sub-sidebar-width: 220px;
+  --g-sub-sidebar-collapse-width: 64px;
+  // 侧边栏 Logo 区域高度
+  --g-sidebar-logo-height: 50px;
+  // 标签栏高度
+  --g-tabbar-height: 40px;
+  // 工具栏高度
+  --g-toolbar-height: 50px;
+}
+// 明暗模式 CSS 变量
+/* stylelint-disable-next-line no-duplicate-selectors */
+:root {
+  --g-box-shadow-color: rgb(0 0 0 / 12%);
+  &.dark {
+    --g-box-shadow-color: rgb(0 0 0 / 72%);
+  }
+  @include set-themes-css-var();
+}
+// 全局样式
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgb(0 0 0 / 40%);
+  background-clip: padding-box;
+  border: 3px solid transparent;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(0 0 0 / 50%);
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background-color: var(--g-app-bg);
+  transition: background-color 0.3s;
+  box-sizing: border-box;
+  font-family: MicrosoftYaHei, "Microsoft YaHei", 微软雅黑, "PingFang SC", sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  color: var(--color-main);
+  &.hidden {
+    overflow: hidden;
+  }
+}
+* {
+  box-sizing: inherit;
+}
+// 右侧内容区针对fixed元素，有横向铺满的需求，可在fixed元素上设置 [data-fixed-calc-width]
+[data-fixed-calc-width] {
+  position: fixed;
+  left: 50%;
+  right: 0;
+}
+[data-app-width-mode="adaption"],
+[data-app-width-mode="adaption-min-width"] {
+  [data-fixed-calc-width] {
+    width: calc(100% - var(--g-main-sidebar-actual-width) - var(--g-sub-sidebar-actual-width));
+    transform: translateX(-50%) translateX(calc(var(--g-main-sidebar-actual-width) / 2)) translateX(calc(var(--g-sub-sidebar-actual-width) / 2));
+  }
+}
+[data-app-width-mode="center"],
+[data-app-width-mode="center-max-width"] {
+  [data-fixed-calc-width] {
+    width: calc(var(--g-app-width) - var(--g-main-sidebar-actual-width) - var(--g-sub-sidebar-actual-width));
+    transform: translateX(-50%) translateX(calc(var(--g-main-sidebar-actual-width) / 2)) translateX(calc(var(--g-sub-sidebar-actual-width) / 2));
+  }
+  @media screen and (max-width: $g-app-width) {
+    [data-fixed-calc-width] {
+      width: calc(100% - var(--g-main-sidebar-actual-width) - var(--g-sub-sidebar-actual-width));
+      transform: translateX(-50%) translateX(calc(var(--g-main-sidebar-actual-width) / 2)) translateX(calc(var(--g-sub-sidebar-actual-width) / 2));
+    }
+  }
+}
+[data-mode="mobile"] {
+  [data-fixed-calc-width] {
+    width: 100% !important;
+    transform: translateX(-50%) !important;
+  }
+}
+// textarea 字体跟随系统
+textarea {
+  font-family: inherit;
+}
+
+.full-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .page-main {
+    flex: 1;
+    padding: 30px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+}
+
+.table-circle-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .text {
+    width: 5em;
+    text-align: left;
+    margin-left: 10px;
+  }
+}
+
+.circle {
+  border-radius: 10px;
+  width: 10px;
+  height: 10px;
+
+  &.status-s {
+    background-color: var(--status-s);
+  }
+
+  &.status-a {
+    background-color: var(--status-a);
+  }
+
+  &.status-b {
+    background-color: var(--status-b);
+  }
+
+  &.status-c {
+    background-color: var(--status-c);
+  }
+
+  &.status-d {
+    background-color: var(--status-d);
+  }
+
+  &.status-n {
+    background-color: var(--status-n);
+  }
+
+  &.status-none {
+    background-color: var(--status-none);
+  }
+}
+

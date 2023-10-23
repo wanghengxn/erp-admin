@@ -1,0 +1,246 @@
+@use "./override.system.scss";
+
+// 列表页全局样式
+.el-table.list-table {
+  margin: 20px 0;
+  .el-button + .el-dropdown {
+    margin-left: 10px;
+  }
+}
+.el-input .el-input__inner {
+  &::placeholder {
+    color: #d5d6d7;
+  }
+  &::input-placeholder {
+    /* WebKit browsers 适配谷歌 */
+    color: #d5d6d7;
+  }
+  &:placeholder {
+    /* Mozilla Firefox 4 to 18 适配火狐 */
+    color: #d5d6d7;
+  }
+  &::placeholder {
+    /* Mozilla Firefox 19+ 适配火狐 */
+    color: #d5d6d7;
+  }
+  &:input-placeholder {
+    /* Internet Explorer 10+  适配ie */
+    color: #d5d6d7;
+  }
+}
+
+// button样式
+.el-button.is-text {
+  color: #62b5e5 !important;
+  padding: 0;
+  &:not(.is-disabled):hover {
+    background: transparent;
+    color: var(--color-primary);
+  }
+  &.is-disabled,
+  &.is-disabled:hover {
+    color: #62b5e5;
+    opacity: 0.6;
+  }
+}
+.el-button.el-button--info {
+  background: #f6f6f6;
+  border: none;
+  color: var(--color-main);
+}
+.el-checkbox {
+  color: var(--color-main);
+}
+// 大号复选框
+.el-checkbox.el-checkbox--large {
+  height: 20px;
+  &:not(.is-checked) {
+    .el-checkbox__label {
+      color: #adafb0;
+    }
+  }
+  .el-checkbox__input:not(.is-checked) .el-checkbox__inner {
+    background: #d5d6d7;
+    border: 1px solid #d5d6d7;
+  }
+  .el-checkbox__inner {
+    height: 20px;
+    width: 20px;
+    &::after {
+      height: 10px;
+      width: 5px;
+      left: 6px;
+      top: 2px;
+      transform: rotate(45deg) scaleY(1);
+    }
+  }
+}
+
+// 表格样式修改
+.el-table--border::after,
+.el-table--border::before,
+.el-table--border .el-table__inner-wrapper::after,
+.el-table__inner-wrapper::before,
+.el-table__border-left-patch {
+  background: #d4d3d4;
+}
+.el-table.el-table--border .el-table__header {
+  th {
+    border-bottom: 1px solid #d4d3d4;
+  }
+}
+.el-table {
+  th.el-table__cell {
+    background: #f0f0f0;
+    color: var(--color-main);
+    font-weight: bold;
+  }
+  .el-table__cell {
+    border-color: #d4d3d4;
+    color: var(--color-main);
+  }
+  &.no-td-border {
+    .el-table__cell {
+      border-right: 0;
+    }
+  }
+  .el-table__header {
+    th:first-child {
+      //padding-left: 6px;
+    }
+  }
+  .el-table__body {
+    td {
+      border-bottom: 1px dotted #d4d3d4;
+    }
+  }
+}
+.el-table--enable-row-hover .el-table__body tr:hover > td.el-table__cell {
+  background: #fff9e6;
+}
+.el-table .high-table-line {
+  background: #fff9e6;
+}
+.el-table.is-scrolling-right th.el-table-fixed-column--right,
+.el-table__header-wrapper tr th.el-table-fixed-column--right,
+.el-table.is-scrolling-none th.el-table-fixed-column--left,
+.el-table.is-scrolling-none th.el-table-fixed-column--right {
+  background: #f0f0f0;
+}
+
+// 分页器样式修改
+.el-pagination.is-background {
+  .btn-prev,
+  .btn-next {
+    background: transparent;
+    border: 1px solid #ddd;
+    border-radius: 4px !important;
+    color: #75787a;
+    &:disabled {
+      background: transparent;
+      color: #eff1f5;
+    }
+  }
+  .number,
+  .more,
+  li:last-child {
+    background: transparent !important;
+    border: 1px solid #ddd;
+    border-radius: 4px !important;
+    color: #75787a;
+    &.is-active {
+      background: var(--color-primary) !important;
+      color: var(--color-whites);
+      border-color: var(--color-primary);
+    }
+  }
+}
+.el-popover.el-popper {
+  min-width: 106px;
+}
+.el-backtop {
+  z-index: 101;
+}
+.el-dialog__header {
+  border-bottom: 1px solid #eee;
+  margin-right: 0;
+  padding: 18px 30px;
+  border-radius: 12px 12px 0 0;
+  .el-dialog__title,
+  .title {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: var(--font-size-large);
+    color: var(--color-main);
+  }
+}
+.el-overlay-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .el-dialog {
+    margin: 0 auto !important;
+    border-radius: 12px;
+    .el-dialog.news-dialog {
+      .el-dialog__body {
+        padding: 30px 30px 60px;
+      }
+    }
+    .el-dialog__body {
+      padding: 30px;
+      max-height: 85vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .el-dialog__headerbtn {
+      width: 14px;
+      height: 14px;
+      top: 20px;
+      right: 20px;
+    }
+  }
+}
+
+// 时间选择样式修改
+//.el-date-picker {
+//  width: 248px;
+//  .el-picker-panel__content {
+//    width: 248px;
+//    margin: 0;
+//  }
+//  td {
+//    .cell {
+//      display: flex;
+//      align-items: center;
+//      justify-content: center;
+//      width: 42px;
+//      height: 25px;
+//      border-radius: 2px !important;
+//      color: #000;
+//    }
+//    &:hover {
+//      .cell {
+//        background: #EFEEEF;
+//        color: #000;
+//      }
+//    }
+//    &.current:not(.disabled) {
+//      .cell {
+//        background: #70A152;
+//        color: var(--color-whites) !important;
+//      }
+//    }
+//  }
+//}
+.el-input-number {
+  .el-input__inner {
+    text-align: left !important;
+  }
+}
+.el-col-lg-4-8 {
+  width: 20% !important;
+  max-width: 20% !important;
+}

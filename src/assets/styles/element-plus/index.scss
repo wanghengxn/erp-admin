@@ -1,0 +1,15 @@
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $colors: (
+    "primary": (
+      "base": #86BC25
+    ),
+    "regular": (
+      "base": #75787a
+    )
+  ),
+  $text-color: (
+    "regular": #75787a
+  )
+);
+@use "element-plus/theme-chalk/src/index.scss" as *;
+@use "./dark.scss";

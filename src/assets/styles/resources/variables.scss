@@ -1,0 +1,64 @@
+// 全局变量
+
+// 因为这两个变量会使用在 @media 上，而 @media 不支持使用 css var ，所以使用 scss var 代替
+// https://stackoverflow.com/questions/40722882/css-native-variables-not-working-in-media-queries
+$g-app-width: 1440px;
+$g-header-width: 100%;
+
+$g-app-width: 1440px;
+$g-header-width: 100%;
+
+// 全局变量
+$g-color-primary: var(--el-color-primary) !default;
+$g-color-whites: #fff !default;
+$g-color-desc: #adafb0 !default;
+$g-color-black: #464646 !default;
+$g-color-text: #060607;
+$g-color-text-primary: #75787a !default;
+$g-color-success: #12cb8f;
+$g-color-error: #E42313;
+$g-color-cancel: #ccc;
+$g-color-warning: #eeb513;
+$g-color-sub: #999;
+$g-color-main: #75787a;
+$g-font-size: 14px;
+$g-font-size-big: 18px;
+$g-font-size-max: 20px;
+$g-font-size-large: 16px;
+$g-font-size-min: 12px;
+$g-color-blue: #409EFFFF;
+
+$g-color-status-s: #5C9E7E;
+$g-color-status-a: #86BC25;
+$g-color-status-b: #FFCD01;
+$g-color-status-c: #EE7A76;
+$g-color-status-d: #AB251A;
+$g-color-status-none: #D4D3D4;
+:root {
+  --color-primary: #{$g-color-primary};
+  --color-desc: #{$g-color-desc};
+  --color-whites: #{$g-color-whites};
+  --color-main: #{$g-color-main};
+  --color-black: #{$g-color-black};
+  --color-text: #{$g-color-text};
+  --font-size-big: #{$g-font-size-big};
+  --font-size: #{$g-font-size};
+  --font-size-min: #{$g-font-size-min};
+  --font-size-large: #{$g-font-size-large};
+  --font-size-max: #{$g-font-size-max};
+  --color-success: #{$g-color-success};
+  --color-error: #{$g-color-error};
+  --el-text-color-regular: #{$g-color-text-primary};
+  --color-cancel: #{$g-color-cancel};
+  --color-warning: #{$g-color-warning};
+  --color-sub: #{$g-color-sub};
+  --color-blue: #{$g-color-blue};
+
+  --status-s: #{$g-color-status-s};
+  --status-a: #{$g-color-status-a};
+  --status-b: #{$g-color-status-b};
+  --status-c: #{$g-color-status-c};
+  --status-d: #{$g-color-status-d};
+  --status-n: #{$g-color-main};
+  --status-none: #{$g-color-status-none};
+}
