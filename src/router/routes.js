@@ -114,6 +114,7 @@ let systemRoutes = [
 ]
 
 import home from './modules/home'
+import setting from './modules/setting'
 
 // 动态路由（异步路由、导航栏路由）
 let asyncRoutes = [
@@ -125,7 +126,8 @@ let asyncRoutes = [
       sidebar: false
     },
     children: [
-      home
+      home,
+      setting
     ]
   }
 ]
