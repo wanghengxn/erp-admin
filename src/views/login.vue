@@ -106,7 +106,7 @@ function loginByPassword() {
     }
     router.push('/')
   }).catch(error => {
-    errorText.value = error.response.data.title
+    errorText.value = error.response.data.errorMsg
     errorShow.value = true
     timer = setTimeout(() => {
       errorShow.value = false

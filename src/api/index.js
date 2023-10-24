@@ -76,9 +76,8 @@ api.interceptors.response.use(
         ElMessage.closeAll()
         ElMessage({
           message:
-            error.response.data.detail ||
-            error.response.data.title ||
-            error.response.data.message ||
+            error.response.data.errorMsg ||
+            error.response.data.error ||
             '请求失败',
           type: 'error',
           duration: 5 * 1000
