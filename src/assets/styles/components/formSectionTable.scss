@@ -1,0 +1,128 @@
+.section-table {
+  border-collapse: collapse;
+  //border: 1px solid #D4D3D4;
+  .table-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F0F0F0;
+    border-bottom: 1px solid #DEDEDE;
+    height: 28px;
+  }
+  .table-line {
+    display: flex;
+    align-items: center;
+    &:last-child {
+      .td-label {
+        border-bottom: 1px solid #D4D3D4;
+      }
+    }
+    //&:last-child {
+    //  .td-label, .td-content {
+    //    border-bottom: none !important;
+    //  }
+    //}
+    &.line-2 {
+      .td-item {
+        height: 52px;
+      }
+    }
+    &.line-3 {
+      .td-item {
+        height: 68px;
+      }
+    }
+  }
+  .td-item {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    flex-shrink: 0;
+    height: 36px;
+    font-size: var(--font-size-min);
+    margin-top: -1px;
+    &:not(.collapse-line):nth-of-type(2n) {
+      .td-label {
+        border-left: 0;
+      }
+    }
+    &.collapse-line:last-child {
+      .td-label, .td-content {
+        border-bottom: none;
+      }
+    }
+
+    &.line-2 {
+      height: 72px;
+    }
+
+    &.disabled {
+      .td-content {
+        background: #f4f4f4;
+      }
+    }
+
+    .td-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      width: 220px;
+      flex-shrink: 0;
+      font-weight: 700;
+      border-left: 1px solid #D4D3D4;
+      border-bottom: 1px solid #D4D3D4;
+      border-top: 1px solid #D4D3D4;
+      height: 100%;
+      padding: 0 15px;
+      line-height: 1.5;
+      background: #f4f4f4;
+      &.long {
+        width: 50%;
+      }
+    }
+    .td-content {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      flex: 1;
+      padding: 0 20px;
+      border: 1px solid #D4D3D4;
+      z-index: 1;
+      &.error {
+        z-index: 10;
+        border-color: var(--color-error);
+        &::v-deep(.el-input__inner) {
+          &::placeholder {
+            color: var(--color-error);
+          }
+        }
+      }
+
+      .overview-text {
+        width: 130px;
+      }
+    }
+  }
+  .unit {
+    width: 4em;
+    text-align: right;
+    margin-left: 15px;
+  }
+  .required {
+    color: var(--color-error);
+    margin-left: 12px;
+  }
+  td {
+    height: 36px;
+    border: 1px solid #D4D3D4;
+    text-align: center;
+    font-size: 12px;
+    padding: 0 15px;
+    &.label {
+      background: #f4f4f4;
+    }
+  }
+}
