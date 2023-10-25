@@ -9,15 +9,16 @@
 </route>
 
 <script setup name="PersonalSetting">
+import { getUserInfo } from '@/api/auth'
+
 const router = useRouter()
 
 const formRef = ref()
 const form = ref({
-  headimg: '',
   mobile: '',
+  email: '',
   name: '',
-  qq: '',
-  wechat: ''
+  realName: ''
 })
 
 function handleSuccess(res) {
@@ -32,6 +33,9 @@ function editPassword() {
     name: 'personalEditPassword'
   })
 }
+getUserInfo().then(res => {
+  form.value = res
+})
 </script>
 
 <template>
@@ -44,17 +48,17 @@ function editPassword() {
             <el-col :span="16">
               <el-form ref="formRef" :model="form" label-width="120px" label-suffix="：">
                 <el-form-item label="名 称">
-                  <el-input v-model="form.name" placeholder="请输入你的名称" />
+                  <el-input v-model="form.name" placeholder="请输入你的昵称" />
                 </el-form-item>
                 <el-form-item label="手机号">
                   <el-input v-model="form.mobile" placeholder="请输入你的手机号" />
                 </el-form-item>
-                <el-form-item label="QQ 号">
-                  <el-input v-model="form.qq" placeholder="请输入你的 QQ 号" />
+                <el-form-item label="真实姓名">
+                  <el-input v-model="form.realName" placeholder="请输入你真实姓名" />
                 </el-form-item>
-                <el-form-item label="微信号">
+                <!-- <el-form-item label="微信号">
                   <el-input v-model="form.wechat" placeholder="请输入你的微信号" />
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item>
                   <el-button type="primary">保存</el-button>
                 </el-form-item>
@@ -80,19 +84,19 @@ function editPassword() {
             <div class="item">
               <div class="content">
                 <div class="title">密保手机</div>
-                <div class="desc">已绑定手机：187****3441</div>
+                <div class="desc">已绑定手机：{{ form.mobile }}</div>
               </div>
               <div class="action">
-                <el-button type="primary" text>修改</el-button>
+                <el-button type="primary" text disabled="true">修改</el-button>
               </div>
             </div>
             <div class="item">
               <div class="content">
-                <div class="title">备用邮箱</div>
-                <div class="desc">当前未绑定备用邮箱</div>
+                <div class="title">邮箱</div>
+                <div class="desc">{{ form.email ? '当前已绑定邮箱：' + form.email:'当前未绑定邮箱' }}</div>
               </div>
               <div class="action">
-                <el-button type="primary" text>绑定</el-button>
+                <el-button type="primary" text disabled>绑定</el-button>
               </div>
             </div>
           </div>

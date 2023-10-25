@@ -25,20 +25,20 @@ const validatePassword = (rule, value, callback) => {
 
 const formRef = ref()
 const form = ref({
-  password: '',
-  newpassword: '',
-  checkpassword: ''
+  oldPwd: '',
+  newPwd: '',
+  confirmNewPwd: ''
 })
 
 const rules = ref({
-  password: [
+  oldPwd: [
     { required: true, message: '请输入原密码', trigger: 'blur' }
   ],
-  newpassword: [
+  newPwd: [
     { required: true, message: '请输入新密码', trigger: 'blur' },
     { min: 6, max: 18, trigger: 'blur', message: '密码长度为6到18位' }
   ],
-  checkpassword: [
+  confirmNewPwd: [
     { required: true, message: '请输入新密码', trigger: 'blur' },
     { validator: validatePassword }
   ]
@@ -50,7 +50,7 @@ function onSubmit() {
       userStore.editPassword(form.value).then(() => {
         ElMessage({
           type: 'success',
-          message: '模拟修改成功，请重新登录'
+          message: '修改成功，请重新登录'
         })
         userStore.logout().then(() => {
           router.push({
@@ -64,6 +64,11 @@ function onSubmit() {
     }
   })
 }
+function cancel() {
+  router.push({
+    name: 'dashboard'
+  })
+}
 </script>
 
 <template>
@@ -73,21 +78,22 @@ function onSubmit() {
       <el-row>
         <el-col :md="24" :lg="12">
           <el-form ref="formRef" :model="form" :rules="rules" label-width="120px">
-            <el-form-item label="原密码" prop="password">
-              <el-input v-model="form.password" type="password" placeholder="请输入原密码" />
+            <el-form-item label="原密码" prop="oldPwd">
+              <el-input v-model="form.oldPwd" type="password" placeholder="请输入原密码" />
             </el-form-item>
-            <el-form-item label="新密码" prop="newpassword">
-              <el-input v-model="form.newpassword" type="password" placeholder="请输入原密码" />
+            <el-form-item label="新密码" prop="newPwd">
+              <el-input v-model="form.newPwd" type="password" placeholder="请输入新密码" />
             </el-form-item>
-            <el-form-item label="确认新密码" prop="checkpassword">
-              <el-input v-model="form.checkpassword" type="password" placeholder="请输入原密码" />
+            <el-form-item label="确认新密码" prop="confirmNewPwd">
+              <el-input v-model="form.confirmNewPwd" type="password" placeholder="请确认新密码" />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit">提交</el-button>
+              <el-button @click="cancel">取消</el-button>
             </el-form-item>
           </el-form>
         </el-col>
       </el-row>
     </page-main>
-    <fixed-action-bar>
-      <el-button type="primary" size="large" @click="onSubmit">提交</el-button>
-    </fixed-action-bar>
   </div>
 </template>

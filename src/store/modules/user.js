@@ -1,5 +1,5 @@
 import storage from '@/util/storage'
-import { login, getUserInfo, loginByEmsCode } from '@/api/auth'
+import { login, getUserInfo, updatePwd } from '@/api/auth'
 
 import useTabbarStore from './tabbar'
 import useRouteStore from './route'
@@ -33,19 +33,19 @@ const useUserStore = defineStore(
           })
         })
       },
-      loginByCode(data) {
-        return new Promise((resolve, reject) => {
-          loginByEmsCode(data).then(res => {
-            storage.local.set('token', res.id_token)
-            this.token = res.id_token
-            this.getUserInfo().then(() => {
-              resolve()
-            })
-          }).catch(error => {
-            reject(error)
-          })
-        })
-      },
+      // loginByCode(data) {
+      //   return new Promise((resolve, reject) => {
+      //     loginByEmsCode(data).then(res => {
+      //       storage.local.set('token', res.id_token)
+      //       this.token = res.id_token
+      //       this.getUserInfo().then(() => {
+      //         resolve()
+      //       })
+      //     }).catch(error => {
+      //       reject(error)
+      //     })
+      //   })
+      // },
       getUserInfo() {
         return new Promise((resolve, reject) => {
           getUserInfo().then(res => {
@@ -84,7 +84,10 @@ const useUserStore = defineStore(
       },
       editPassword(data) {
         return new Promise(resolve => {
-          resolve(data)
+          updatePwd(data).then(_ => {
+            resolve()
+          })
+          
         })
       }
     }

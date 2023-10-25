@@ -19,3 +19,8 @@ export const sendEmsCode = params => {
 export const loginByEmsCode = data => {
   return axios.post('/api/authenticate/mobile', data)
 }
+
+// 更新密码
+export const updatePwd = data => {
+  return axios.put('/api/sso/account/current/pwd', data)
+}

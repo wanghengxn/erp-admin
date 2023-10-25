@@ -107,6 +107,8 @@ function userCommand(command) {
       </div>
       <template #dropdown>
         <el-dropdown-menu class="user-dropdown">
+          <el-dropdown-item command="setting">个人设置</el-dropdown-item>
+          <!-- <el-dropdown-item command="myOrder">我的订单</el-dropdown-item> -->
           <el-dropdown-item command="logout">{{ t('app.logout') }}</el-dropdown-item>
         </el-dropdown-menu>
       </template>
