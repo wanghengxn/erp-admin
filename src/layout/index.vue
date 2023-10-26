@@ -57,7 +57,7 @@ onUnmounted(() => {
       <!-- <Header /> -->
       <div class="wrapper">
         <div class="sidebar-container" :class="{'show': settingsStore.mode === 'mobile' && !settingsStore.menu.subMenuCollapse}">
-          <!--          <MainSidebar />-->
+          <!-- <MainSidebar /> -->
           <SubSidebar />
         </div>
         <div class="sidebar-mask" :class="{'show': settingsStore.mode === 'mobile' && !settingsStore.menu.subMenuCollapse}" @click="settingsStore.toggleSidebarCollapse()" />

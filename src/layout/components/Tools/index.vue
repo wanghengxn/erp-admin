@@ -7,6 +7,7 @@ import useNotificationStore from '@/store/modules/notification'
 import Notification from './Notification/index.vue'
 import eventBus from '@/util/eventBus'
 import { useMainPage } from '@/util/composables'
+import { ref } from 'vue'
 
 const router = useRouter()
 
@@ -21,6 +22,12 @@ const { t } = useI18n()
 const generateI18nTitle = inject('generateI18nTitle')
 
 const { isFullscreen, toggle } = useFullscreen()
+
+const currentAccountSet = ref(null)
+const userAccountSets = ref([{ value: '1', label: '1' }, { value: '2', label: '2' }])
+const currentAccountSetPeriod = ref('2023年6月')
+
+currentAccountSet.value = userStore.selectedAccountSet
 
 function userCommand(command) {
   switch (command) {
@@ -47,6 +54,19 @@ function userCommand(command) {
 
 <template>
   <div class="tools">
+    <div class="accountSet">
+      <el-select v-model="currentAccountSet" class="m-2" placeholder="选择帐套">
+        <el-option
+          v-for="item in userAccountSets"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        />
+      </el-select>
+      <div class="period">
+        {{ currentAccountSetPeriod }}
+      </div>
+    </div>
     <div class="buttons">
       <span v-if="settingsStore.toolbar.enableNavSearch" class="item" @click="eventBus.emit('global-search-toggle')">
         <el-icon>
@@ -122,6 +142,15 @@ function userCommand(command) {
   align-items: center;
   padding: 0 20px;
   white-space: nowrap;
+  .accountSet{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    .period {
+      margin-left: 20px;
+      color: var(--el-text-color-primary);
+    }
+  }
   .buttons {
     margin-right: 20px;
     .item {

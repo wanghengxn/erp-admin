@@ -297,9 +297,9 @@ export function getCompanyDesc(level, companyLevel, key) {
 
 // 获取最近三年的列表
 export function getYearList() {
-  let year = new Date().getFullYear() - 1
+  let year = new Date().getFullYear() + 1
   const list = []
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 7; i++) {
     list.push({
       label: year,
       value: year

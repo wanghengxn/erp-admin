@@ -18,6 +18,15 @@ export default {
       }
     },
     {
+      path: 'AccountSetsEdit',
+      name: 'AccountSetsEdit',
+      component: () => import('@/views/settings/accountSets/edit.vue'),
+      meta: {
+        title: '新增/编辑帐套',
+        sidebar: false
+      }
+    },
+    {
       path: 'AccountSubject',
       name: 'AccountSubject',
       component: () => import('@/views/settings/accountSubject/index.vue'),

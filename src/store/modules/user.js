@@ -10,6 +10,7 @@ const useUserStore = defineStore(
   'user',
   {
     state: () => ({
+      selectedAccountSet: storage.local.get('selectedAccountSet') || '',
       account: storage.local.get('account') || '',
       token: storage.local.get('token') || '',
       permissions: []
@@ -17,6 +18,10 @@ const useUserStore = defineStore(
     getters: {
       isLogin: state => {
         return !!state.token
+      },
+      // 是否选择了帐套
+      isSelectedAccountSet: state => {
+        return !!state.selectedAccountSet
       }
     },
     actions: {
@@ -51,7 +56,9 @@ const useUserStore = defineStore(
           getUserInfo().then(res => {
             storage.local.set('userInfo', res)
             storage.local.set('account', res.name)
+            storage.local.set('selectedAccountSet', res.selectedAccountSetCode)
             this.account = res.name
+            this.selectedAccountSet = res.selectedAccountSetCode
             resolve()
           }).catch(error => {
             reject(error)
@@ -65,6 +72,7 @@ const useUserStore = defineStore(
           const menuStore = useMenuStore()
           storage.local.remove('account')
           storage.local.remove('token')
+          storage.local.remove('selectedAccountSet')
           storage.local.remove('failure_time')
           this.account = ''
           this.token = ''

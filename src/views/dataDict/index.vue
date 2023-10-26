@@ -135,16 +135,13 @@ function selectStatus(id, e) {
   })
 }
 
-function getGroupKey() {
-  getDataDictMeta().then(res => {
-    formItems.value[0].options = res.map(item => {
-      return {
-        label: item.itemValue,
-        value: item.itemKey
-      }
-    })
+getDataDictMeta().then(res => {
+  formItems.value[0].options = res.map(item => {
+    return {
+      label: item.itemValue,
+      value: item.itemKey
+    }
   })
-}
-getGroupKey()
+})
 
 </script>

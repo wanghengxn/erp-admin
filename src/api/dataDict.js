@@ -25,3 +25,8 @@ export const updateDataDict = data => {
 export const updateDataDictStatus = (id, status) => {
   return axios.put(`${dataDictBaseUrl}/${id}/status/${status}`)
 }
+
+// 根据groupKey查询
+export const getDataDictByGroupKeys = params => {
+  return axios.get(`${dataDictBaseUrl}/group-keys`, { params })
+}
