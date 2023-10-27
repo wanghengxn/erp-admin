@@ -8,6 +8,7 @@ import Notification from './Notification/index.vue'
 import eventBus from '@/util/eventBus'
 import { useMainPage } from '@/util/composables'
 import { ref } from 'vue'
+import emitter from '@/util/eventBus'
 
 const router = useRouter()
 
@@ -24,10 +25,23 @@ const generateI18nTitle = inject('generateI18nTitle')
 const { isFullscreen, toggle } = useFullscreen()
 
 const currentAccountSet = ref(null)
-const userAccountSets = ref([{ value: '1', label: '1' }, { value: '2', label: '2' }])
-const currentAccountSetPeriod = ref('2023年6月')
+const userAccountSets = ref([])
+const currentAccountSetPeriod = ref('')
+const currentAccountSetCode = ref(null)
 
-currentAccountSet.value = userStore.selectedAccountSet
+const setValue = () => {
+  userAccountSets.value = userStore.userAccountSets.map(item => { return { value: item.accountSetCode, label: item.accountSetName } })
+  currentAccountSet.value = userStore.selectedAccountSet
+  if (currentAccountSet.value) {
+    currentAccountSetCode.value = currentAccountSet.value.accountSetCode
+    currentAccountSetPeriod.value = currentAccountSet.value.accountSetStartYear + '年' + currentAccountSet.value.accountSetStartMonth + '月'
+  } else {
+    currentAccountSetPeriod.value = '- 年 - 月'
+  }
+}
+
+emitter.on('refreshUserAccountSets', setValue)
+setValue()
 
 function userCommand(command) {
   switch (command) {
@@ -55,7 +69,7 @@ function userCommand(command) {
 <template>
   <div class="tools">
     <div class="accountSet">
-      <el-select v-model="currentAccountSet" class="m-2" placeholder="选择帐套">
+      <el-select v-model="currentAccountSetCode" class="m-2" placeholder="选择帐套">
         <el-option
           v-for="item in userAccountSets"
           :key="item.value"
@@ -142,7 +156,7 @@ function userCommand(command) {
   align-items: center;
   padding: 0 20px;
   white-space: nowrap;
-  .accountSet{
+  .accountSet {
     display: inline-flex;
     align-items: center;
     justify-content: center;

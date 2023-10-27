@@ -10,10 +10,11 @@ const useUserStore = defineStore(
   'user',
   {
     state: () => ({
-      selectedAccountSet: storage.local.get('selectedAccountSet') || '',
+      selectedAccountSet: storage.local.getJson('selectedAccountSet'),
       account: storage.local.get('account') || '',
       token: storage.local.get('token') || '',
-      permissions: []
+      permissions: [],
+      userAccountSets: storage.local.getJson('userAccountSets') || []
     }),
     getters: {
       isLogin: state => {
@@ -22,6 +23,12 @@ const useUserStore = defineStore(
       // 是否选择了帐套
       isSelectedAccountSet: state => {
         return !!state.selectedAccountSet
+      },
+      getMyAccountSets: state => {
+        console.log(state.userAccountSets)
+        return () => {
+          return state.userAccountSets.map(item => { return { value: item.accountSetCode, label: item.accountSetName } })
+        }
       }
     },
     actions: {
@@ -56,9 +63,12 @@ const useUserStore = defineStore(
           getUserInfo().then(res => {
             storage.local.set('userInfo', res)
             storage.local.set('account', res.name)
-            storage.local.set('selectedAccountSet', res.selectedAccountSetCode)
+            storage.local.setJson('selectedAccountSet', res.selectedAccountSet)
+            storage.local.setJson('userAccountSets', res.accountSets)
             this.account = res.name
-            this.selectedAccountSet = res.selectedAccountSetCode
+            this.selectedAccountSet = res.selectedAccountSet
+            this.userAccountSets = res.accountSets
+            // console.log('this.userAccountSets:', this.userAccountSets)
             resolve()
           }).catch(error => {
             reject(error)

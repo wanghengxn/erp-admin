@@ -7,14 +7,18 @@ export const getAccountSetPage = params => {
   return axios.get(accountSetBaseUrl, { params })
 }
 
-// // 新增
-// export const createDataDict = data => {
-//   return axios.post(dataDictBaseUrl, data)
-// }
-// // 更新
-// export const updateDataDict = data => {
-//   return axios.put(dataDictBaseUrl, data)
-// }
+// 新增
+export const addAccountSet = data => {
+  return axios.post(accountSetBaseUrl, data)
+}
+// 更新
+export const updateAccountSet = data => {
+  return axios.put(accountSetBaseUrl, data)
+}
+
+export const getAccountSetById = id => {
+  return axios.get(`${accountSetBaseUrl}/${id}`)
+}
 
 // // 更新状态
 // export const updateDataDictStatus = (id, status) => {

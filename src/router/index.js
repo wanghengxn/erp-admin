@@ -20,8 +20,7 @@ const router = createRouter({
 })
 
 const AccountSetsPath = '/Settings/AccountSetsEdit'
-const enableSelectedAccountSet = false
-console.log('enableSelectedAccountSet:', enableSelectedAccountSet)
+const enableSelectedAccountSet = true
 router.beforeEach(async(to, from, next) => {
   const settingsStore = useSettingsStore()
   const userStore = useUserStore()
@@ -35,7 +34,7 @@ router.beforeEach(async(to, from, next) => {
     if (routeStore.isGenerate) {
        
       // 是否选择了帐套
-      console.log('enable:', !userStore.isSelectedAccountSet && to.path !== AccountSetsPath && enableSelectedAccountSet)
+      // console.log('enable:', !userStore.isSelectedAccountSet && to.path !== AccountSetsPath && enableSelectedAccountSet)
       if (!userStore.isSelectedAccountSet && to.path !== AccountSetsPath && enableSelectedAccountSet) {
         ElMessage({
           message: '请先创建帐套',

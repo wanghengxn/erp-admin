@@ -43,8 +43,8 @@
       </template>
     </SchemaForm>
     <div class="footer">
-      <el-button type="primary" @click="onSubmit">创建帐套</el-button>
-      <el-button>取消</el-button>
+      <el-button type="primary" @click="onSubmit">{{ isUpdate?'更新帐套':'创建帐套' }}</el-button>
+      <el-button @click="onCancel">取消</el-button>
     </div>
   </div>
 </template>
@@ -54,25 +54,25 @@ import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { deepClone, getYearList } from '@/util'
 import { getDataDictByGroupKeys } from '@/api/dataDict'
+import { addAccountSet, updateAccountSet, getAccountSetById } from '@/api/accountSet'
+import useUserStore from '@/store/modules/user'
+import { useRouter } from 'vue-router'
+import emitter from '@/util/eventBus'
   
-defineProps({
-  title: {
-    type: String,
-    default: '温馨提示'
-  }
-})
+const userStore = useUserStore()
+const router = useRouter()
 const yearOptions = ref([])
 const monthOptons = ref([])
 
 const resetForm = () => {
   return {
-    name: '',
-    startYear: '',
-    startMonth: '',
+    name: null,
+    startYear: null,
+    startMonth: null,
     unifiedNumber: '',
-    accountingStandardCode: '',
+    accountingStandardCode: null,
     industryCode: null,
-    taxTypeCode: '',
+    taxTypeCode: null,
     assetsModule: true,
     cashModule: true,
     psiModule: true,
@@ -81,7 +81,6 @@ const resetForm = () => {
 }
 const form = ref(resetForm())
 const sureLoading = ref(false)
-const isEdit = ref(false)
 const setSchemaFormRef = ref(null)
 const formItems = ref([
   {
@@ -133,7 +132,7 @@ const formItems = ref([
     options: []
   },
   {
-    field: 'taxType',
+    field: 'taxTypeCode',
     type: 'select',
     props: { label: '增值税种类' },
     layout: { xs: 24, sm: 24, md: 24, xl: 24 },
@@ -192,7 +191,7 @@ const rules = {
   accountingStandardCode: [
     { required: true, message: '请选择会计准则', trigger: 'blur' }
   ],
-  taxType: [
+  taxTypeCode: [
     { required: true, message: '请选择增值税种类', trigger: 'blur' }
   ],
   assetsModule: [
@@ -209,25 +208,36 @@ const rules = {
   ]
 }
 const activeId = ref('')
+const isUpdate = ref(false)
   
 function onSubmit() {
   setSchemaFormRef.value.validate(result => {
     if (result) {
-      // sureLoading.value = true
+      sureLoading.value = true
       const postData = deepClone(form.value)
-      console.log('postData:', postData)
+      // console.log('postData:', postData)
 
-      // if (isEdit.value) {
-      //   postData.id = activeId.value
-      // }
-      // const method = isEdit.value ? updateDataDict : createDataDict
-      // method(postData).then(() => {
-      //   ElMessage.success('操作成功')
-      // }).finally(() => {
-      //   sureLoading.value = false
-      // })
+      if (!isUpdate.value) {
+        postData.id = activeId.value
+      }
+      const method = isUpdate.value ? updateAccountSet : addAccountSet
+      method(postData).then(() => {
+        
+        // 重新加载用户信息
+        userStore.getUserInfo().then(() => {
+          ElMessage.success('操作成功')
+          emitter.emit('refreshUserAccountSets')
+          router.push({ name: 'AccountSets' })
+        })
+      }).finally(() => {
+        sureLoading.value = false
+      })
     }
   })
+}
+
+function onCancel() {
+  router.push({ name: 'AccountSets' })
 }
 getDataDictByGroupKeys({ groupKeys: 'ACCOUNTING_STANDARDS,INDUSTRY,TAX_TYPE' }).then(res => {
   const toSelect = item =>  { return { label: item.itemValue, value: item.itemKey } }
@@ -238,10 +248,21 @@ getDataDictByGroupKeys({ groupKeys: 'ACCOUNTING_STANDARDS,INDUSTRY,TAX_TYPE' }).
 
 yearOptions.value = getYearList()
 monthOptons.value = Array.from({ length: 12 }, (_, i) => i + 1).map(item => { return { lable: item, value: item } })
-const now = new Date()
-form.value.startYear = now.getFullYear()
-form.value.startMonth = now.getMonth() + 1
-form.value.taxType = '1'
+
+activeId.value = router.currentRoute.value.query.id
+
+if (activeId.value) {
+  isUpdate.value = true
+  getAccountSetById(activeId.value).then(res => {
+    form.value = res
+  })
+} else {
+  const now = new Date()
+  form.value.startYear = now.getFullYear()
+  form.value.startMonth = now.getMonth() + 1
+  form.value.taxTypeCode = '1'
+}
+
 </script>
 <style scoped>
   .editForm {
@@ -252,7 +273,7 @@ form.value.taxType = '1'
     text-align: center;
     padding-top: 30px;
   }
-  .startPeriod{
+  .startPeriod {
     /* padding: 0 11px; */
     display: flex;
   }

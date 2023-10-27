@@ -8,8 +8,18 @@ const storage = {
     get: key => {
       return localStorage.getItem(`${settings.app.storagePrefix}${key}`)
     },
+    getJson: key => {
+      const jsonStr = localStorage.getItem(`${settings.app.storagePrefix}${key}`)
+      if (jsonStr) {
+        return JSON.parse(jsonStr)
+      }
+      return jsonStr
+    },
     set: (key, value) => {
       localStorage.setItem(`${settings.app.storagePrefix}${key}`, value)
+    },
+    setJson: (key, value) => {
+      localStorage.setItem(`${settings.app.storagePrefix}${key}`, JSON.stringify(value))
     },
     remove: key => {
       localStorage.removeItem(`${settings.app.storagePrefix}${key}`)

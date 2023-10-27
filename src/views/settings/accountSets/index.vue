@@ -132,7 +132,7 @@ function dialogShow(row) {
   // AddDataDictDialogRef.show(row)
   router.push({
     name: 'AccountSetsEdit',
-    query: { id: row ? row.id : -1 }
+    query: { id: row ? row.id : null }
   })
 }
 
