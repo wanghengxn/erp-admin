@@ -13,7 +13,7 @@
         <div class="startPeriod">
           <el-row>
             <el-col :span="10">
-              <el-select v-model="form.startYear" class="m-2" placeholder="Select">
+              <el-select v-model="form.startYear" class="m-2" placeholder="Select" disabled="${isUpdate}">
                 <el-option
                   v-for="item in yearOptions"
                   :key="item.value"
@@ -26,7 +26,7 @@
               <span class="m-2">年</span>
             </el-col>
             <el-col :span="10">
-              <el-select v-model="form.startMonth" class="m-2" placeholder="Select">
+              <el-select v-model="form.startMonth" class="m-2" placeholder="Select" disabled="${isUpdate}">
                 <el-option
                   v-for="item in monthOptons"
                   :key="item.value"
@@ -117,7 +117,8 @@ const formItems = ref([
     props: { label: '会计准则' },
     layout: { xs: 24, sm: 24, md: 24, xl: 24 },
     attr: {
-      placeholder: '请选择'
+      placeholder: '请选择',
+      disabled: true
     },
     options: []
   },

@@ -20,7 +20,7 @@ export const getAccountSetById = id => {
   return axios.get(`${accountSetBaseUrl}/${id}`)
 }
 
-// // 更新状态
-// export const updateDataDictStatus = (id, status) => {
-//   return axios.put(`${dataDictBaseUrl}/${id}/status/${status}`)
-// }
+// 删除
+export const delAccountSetById = id => {
+  return axios.delete(`${accountSetBaseUrl}/${id}`)
+}
