@@ -13,7 +13,7 @@
         <div class="startPeriod">
           <el-row>
             <el-col :span="10">
-              <el-select v-model="form.startYear" class="m-2" placeholder="Select" disabled="${isUpdate}">
+              <el-select v-model="form.startYear" class="m-2" placeholder="Select" :disabled="isUpdate">
                 <el-option
                   v-for="item in yearOptions"
                   :key="item.value"
@@ -26,7 +26,7 @@
               <span class="m-2">年</span>
             </el-col>
             <el-col :span="10">
-              <el-select v-model="form.startMonth" class="m-2" placeholder="Select" disabled="${isUpdate}">
+              <el-select v-model="form.startMonth" class="m-2" placeholder="Select" :disabled="isUpdate">
                 <el-option
                   v-for="item in monthOptons"
                   :key="item.value"
@@ -63,6 +63,8 @@ const userStore = useUserStore()
 const router = useRouter()
 const yearOptions = ref([])
 const monthOptons = ref([])
+const activeId = ref('')
+const isUpdate = ref(false)
 
 const resetForm = () => {
   return {
@@ -118,7 +120,7 @@ const formItems = ref([
     layout: { xs: 24, sm: 24, md: 24, xl: 24 },
     attr: {
       placeholder: '请选择',
-      disabled: true
+      disabled: isUpdate.value
     },
     options: []
   },
@@ -208,8 +210,6 @@ const rules = {
     { required: true, message: '请选择是否进行凭证审核', trigger: 'blur' }
   ]
 }
-const activeId = ref('')
-const isUpdate = ref(false)
   
 function onSubmit() {
   setSchemaFormRef.value.validate(result => {
@@ -262,6 +262,7 @@ if (activeId.value) {
   form.value.startYear = now.getFullYear()
   form.value.startMonth = now.getMonth() + 1
   form.value.taxTypeCode = '1'
+  isUpdate.value = false
 }
 
 </script>
