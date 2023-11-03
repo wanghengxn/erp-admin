@@ -24,3 +24,7 @@ export const getAccountSubjectPage = params => {
 // export const delAccountSetById = id => {
 //   return axios.delete(`${accountSetBaseUrl}/${id}`)
 // }
+
+export const batchOperate = data => {
+  return axios.put(`${baseUrl}/batch-operation`, data)
+}

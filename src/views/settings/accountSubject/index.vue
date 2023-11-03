@@ -20,11 +20,21 @@
                 <el-checkbox v-model="searchForm.showValid" @change="onCheckboxClick">显示停用科目</el-checkbox>
               </div>
               
-              <el-button @click="dummyFunc('编码设置')">编码设置</el-button>
+              <el-button @click="dummyFunc('编码设置暂不实现')">编码设置</el-button>
               <el-button @click="dummyFunc('导出')">导出</el-button>
               <el-button @click="dummyFunc('导入')">导入</el-button>
               <el-button @click="dummyFunc('明细转辅助')">明细转辅助</el-button>
-              <el-button @click="dummyFunc('批量操作')">批量操作</el-button>
+              <el-dropdown style="margin-left: 12px;" @command="handleCommand">
+                <el-button>
+                  批量操作 <svg-icon name="ep:arrow-down" />
+                </el-button>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item command="enableAll">启用</el-dropdown-item>
+                    <el-dropdown-item command="disableAll">停用</el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
             </div>
           </div>
           <div class="tableContent">
@@ -33,6 +43,9 @@
               row-key="id"
               :data="loadData"
               :columns="columns"
+              :index="true"
+              :fixed="['selection', 'index']"
+              :row-selection="onSelectRow"
             >
               <template #direction="scope">
                 <span>{{ scope.row.direction === 1 ? '借' : '贷' }}</span>
@@ -59,12 +72,13 @@
   </div>
 </template>
 <script setup name="accountSubjectList">
-import { getAccountSubjectPage } from '@/api/accountSubject'
+import { getAccountSubjectPage, batchOperate } from '@/api/accountSubject'
 import { getDataDictByGroupKeys } from '@/api/dataDict'
 import { ElMessageBox } from 'element-plus'
 
 const router = useRouter()
 const tabs = ref([])
+const selectedRow = ref([])
 const searchForm = ref({
   category: 'Assets',
   showValid: true
@@ -126,6 +140,17 @@ function dummyFunc(name) {
 
 function onDel(row) {
   alert('删除' + row.name)
+}
+function handleCommand(command) {
+  const ids = selectedRow.value.map(e => e.id)
+  batchOperate({ action: command, ids }).then(() => {
+    schemaTableRefs.value[searchForm.value.category].refresh()
+  })
+  
+}
+
+function onSelectRow(e) {
+  selectedRow.value = e
 }
 </script>
 <style scoped>
